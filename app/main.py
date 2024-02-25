@@ -1,0 +1,11 @@
+from fastapi import FastAPI
+from db.config import engine
+import db.models as models
+
+models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
+
+@app.get('/')
+async def Home():
+    return 'Welcome'
