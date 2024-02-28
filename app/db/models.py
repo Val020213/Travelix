@@ -1,6 +1,17 @@
 from sqlalchemy import Column, Integer, String
 from db.config import Base
 
+
+
+class UserModel(Base):
+    __tablename__ = 'user'
+
+    user_id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    user_name = Column(String(50), nullable=False)
+    user_password = Column(String(50), nullable=False)
+    user_phone = Column(String(10))
+    user_email = Column(String(100)) 
+
 class AgencyModel(Base):
     
     __tablename__ = 'agency'

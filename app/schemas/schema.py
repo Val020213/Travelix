@@ -1,6 +1,15 @@
 from typing import List, Optional, Generic, TypeVar
 from pydantic import BaseModel, Field
 
+
+class UserSchema(BaseModel):
+    id : Optional[int]=None
+    name : Optional[str]=None
+    password : Optional[str]=None
+    phone : Optional[str]
+    email : Optional[str]
+
+
 class AgencySchema(BaseModel):
     id : Optional[int]=None
     name : Optional[str]=None
