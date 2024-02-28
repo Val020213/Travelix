@@ -10,3 +10,11 @@ class AgencyModel(Base):
     agency_address = Column(String(100), nullable=False)
     fax_number = Column(Integer, nullable=False)
     email = Column(String(100), nullable=False)
+
+class TouristModel(Base):
+
+    __tablename__ = 'tourist'
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = Column(String(50), nullable=False)
+    nationallity = Column(String(50), nullable=False)

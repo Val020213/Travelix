@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from schemas.schema import AgencySchema
 import db.crud as crud
 
+
 router = APIRouter(prefix="/agency", tags=["agency"])
 
 @router.get('/list')
