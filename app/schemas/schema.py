@@ -21,6 +21,7 @@ class TouristSchema(BaseModel):
     id : Optional[int]=None
     name : Optional[str]=None
     nationality : Optional[str]=None
+
 class PackageSchema(BaseModel):
     id : Optional[int]=None
     duration : Optional[int]=None
@@ -37,16 +38,22 @@ class ExcursionSchema(BaseModel):
     arrival_hour : Optional[time]=None
     price : Optional[float]=None
 
-class OfferSchema(BaseModel):
+
+class ExtendedExcursionSchema(BaseModel):
     id : Optional[int]=None
-    price : Optional[float]=None
-    description : Optional[str]=None
+    excursion_id : Optional[int]=None
 
 class HotelSchema(BaseModel):
     id : Optional[int]=None
     name : Optional[str]=None
     address : Optional[str]=None
     category : Optional[int]=None
+
+class OfferSchema(BaseModel):
+    id : Optional[int]=None
+    price : Optional[float]=None
+    description : Optional[str]=None
+    hote: HotelSchema
 
 class TouristTypeSchema(BaseModel):
     id : Optional[int]=None

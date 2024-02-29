@@ -1,4 +1,6 @@
-from sqlalchemy import Column, Integer, String, Float, Time
+from sqlalchemy import Column, Integer, String, Float, Time, ForeignKey
+from sqlalchemy.orm import relationship
+from sqlalchemy.ext.declarative import declarative_base
 from db.config import Base
 
 
@@ -51,6 +53,16 @@ class ExcursionModel(Base):
     arrival_hour = Column(Time, nullable=False)
     price = Column(Float, nullable=False)
 
+class ExtendedExcursionModel(Base):
+
+    __tablename__ = 'extended_excursion'
+
+    id = Column(Integer, primary_key=True, nullable=False)
+    excursion_id = Column(Integer, ForeignKey('excursion.id'))
+
+    excursion = relationship('ExcursionModel', back_populates='extended_excursion', uselist=False)
+
+ExcursionModel.extended_excursion = relationship('ExtendedExcursionModel', back_populates='excursion', uselist=False)
 class OfferModel(Base):
 
     __tablename__ = 'offer'
@@ -58,6 +70,9 @@ class OfferModel(Base):
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     price = Column(Float, nullable=False)
     description = Column(String(100), nullable=False)
+    hotel_id = Column(Integer, ForeignKey('hotel.id'))
+
+    hotel = relationship('HotelModel', back_populates='offers')
 
 class HotelModel(Base):
     
@@ -67,6 +82,8 @@ class HotelModel(Base):
     name = Column(String(50), nullable=False)
     address = Column(String(100), nullable=False)
     category = Column(Integer, nullable=False)
+
+    offers = relationship('OfferModel', back_populates='hotel')
 
 class TouristTypeModel(Base):
 
