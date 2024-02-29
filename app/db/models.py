@@ -27,4 +27,4 @@ class TouristModel(Base):
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     name = Column(String(50), nullable=False)
-    nationallity = Column(String(50), nullable=False)
+    nationality = Column(String(50), nullable=False)

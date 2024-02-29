@@ -30,7 +30,7 @@ def update_tourist(db:Session,tourist_schema:TouristSchema):
     return toSchema(tourist)
 
 def toModel(tourist_schema:TouristSchema) -> TouristModel:
-    return TouristModel()
+    return TouristModel(id=tourist_schema.id,name=tourist_schema.name,nationality=tourist_schema.nationality)
 
 def toSchema(tourist_model:TouristModel) -> TouristSchema:
-    return TouristSchema()
+    return TouristSchema(id=tourist_model.id,name=tourist_model.name,nationality=tourist_model.nationality)
