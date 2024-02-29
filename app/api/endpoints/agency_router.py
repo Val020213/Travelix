@@ -1,11 +1,14 @@
 from fastapi import APIRouter, HTTPException, Path, Depends
-from db.config import get_db
 from sqlalchemy.orm import Session
+from db.config import get_db
+
+from api.routes import routers
 from schemas.schema import AgencySchema
 import db.crud as crud
 
 
 router = APIRouter(prefix="/agency", tags=["agency"])
+routers.include_router(router)
 
 @router.get('/list')
 async def list_agencies(db:Session=Depends(get_db)):
