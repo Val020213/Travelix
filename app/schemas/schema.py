@@ -6,9 +6,8 @@ class UserSchema(BaseModel):
     id : Optional[int]=None
     name : Optional[str]=None
     password : Optional[str]=None
-    phone : Optional[str]
-    email : Optional[str]
-
+    phone : Optional[str]=None
+    email : Optional[str]=None
 
 class AgencySchema(BaseModel):
     id : Optional[int]=None

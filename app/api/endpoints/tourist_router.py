@@ -10,17 +10,7 @@ import db.crud.tourist_crud as crud
 router = APIRouter(prefix="/tourist", tags=["tourist"])
 routers.include_router(router)
 
-@router.post('/create')
-async def create_tourists(request:TouristSchema,db:Session=Depends(get_db)):
-    crud.create_tourist(db,request)
-    return "Succesfull"
-    
-@router.post('/update')
-async def update_tourist(request:TouristSchema,db:Session=Depends(get_db)):
-    crud.update_tourist(db,request)
-    return "Succesfull"
-
-@router.get('/')
+@router.get('/list')
 async def get_tourists(db:Session=Depends(get_db)):
     _tourist=crud.get_tourists(db)
     return _tourist
@@ -28,4 +18,16 @@ async def get_tourists(db:Session=Depends(get_db)):
 @router.get('/{id}')
 async def get_tourist_by_id(id:int,db:Session=Depends(get_db)):
     _tourist=crud.get_tourist_by_id(db,id)
+    if _tourist is None:
+        raise HTTPException(status_code=404,detail="Tourist not found")
     return _tourist
+
+@router.post('/create')
+async def create_tourists(request:TouristSchema,db:Session=Depends(get_db)):
+    return crud.create_tourist(db,request)
+    
+@router.post('/update')
+async def update_tourist(request:TouristSchema,db:Session=Depends(get_db)):
+    return crud.update_tourist(db,request)
+    
+

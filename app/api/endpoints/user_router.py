@@ -9,5 +9,5 @@ router = APIRouter(prefix="/user", tags=["user"])
 
 @router.get('/list')
 async def list_users(db:Session=Depends(get_db)):
-    _user = crud.get_users(db,0,5)
-    return _user
+    return crud.get_users(db,0,5)
+    
