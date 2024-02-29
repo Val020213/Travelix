@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 class UserSchema(BaseModel):
     id : Optional[int]=None
-    name : Optional[str]=None
+    username : Optional[str]=None
     password : Optional[str]=None
     phone : Optional[str]=None
     email : Optional[str]=None

@@ -31,11 +31,7 @@ def update_agency(db:Session,agency_schema:AgencySchema):
 
 
 def toModel(agency_schema:AgencySchema) -> AgencyModel:
-    return AgencyModel(agency_name=agency_schema.agency_name,agency_address=agency_schema.agency_address,
-                       fax_number=agency_schema.fax_number,
-                       email=agency_schema.email)
+    return AgencyModel()
 
 def toSchema(agency_model:AgencyModel) -> AgencySchema:
-    return AgencySchema(id=agency_model.agency_id,agency_name=agency_model.agency_name,
-                        agency_address=agency_model.agency_address,fax_number=agency_model.fax_number,
-                        email=agency_model.email)
+    return AgencySchema()

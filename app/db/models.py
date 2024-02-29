@@ -2,23 +2,22 @@ from sqlalchemy import Column, Integer, String
 from db.config import Base
 
 
-
 class UserModel(Base):
     __tablename__ = 'user'
 
-    user_id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    user_name = Column(String(50), nullable=False)
-    user_password = Column(String(50), nullable=False)
-    user_phone = Column(String(10))
-    user_email = Column(String(100)) 
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    username = Column(String(50), nullable=False)
+    hashed_password = Column(String(50), nullable=False)
+    phone = Column(String(10))
+    email = Column(String(100)) 
 
 class AgencyModel(Base):
     
     __tablename__ = 'agency'
 
-    agency_id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    agency_name = Column(String(50), nullable=False)
-    agency_address = Column(String(100), nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = Column(String(50), nullable=False)
+    address = Column(String(100), nullable=False)
     fax_number = Column(Integer, nullable=False)
     email = Column(String(100), nullable=False)
 
