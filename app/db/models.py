@@ -14,24 +14,6 @@ class UserModel(Base):
     phone = Column(String(10))
     email = Column(String(100)) 
 
-
-class PackageModel(Base):
-
-    __tablename__ = 'package'
-
-    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    duration = Column(Integer, nullable=False)
-    description = Column(String(100), nullable=False)
-    price = Column(Float, nullable=False)
-    agency_id = Column(Integer, ForeignKey('agency.id'))
-    extended_excursion_id = Column(Integer, ForeignKey('extended_excursion.id'))
-
-    agency = relationship('AgencyModel', back_populates='packages')
-    extended_excursion = relationship('ExtendedExcursionModel', back_populates='packages')
-    tourist_reservations = relationship('TouristModel', secondary='package_reservation', back_populates='packages')
-    facilities = relationship('FacilityModel', secondary='package_facility', back_populates='packages')
-
-
 class AgencyModel(Base):
     
     __tablename__ = 'agency'
@@ -48,7 +30,6 @@ class AgencyModel(Base):
     packages = relationship('PackageModel', back_populates='agency')
     package_reservations = relationship('PackageModel', secondary='package_reservation', back_populates='agency')
     facilities = relationship('FacilityModel', secondary='package_facility', back_populates='agency')
-
 
 class ExcursionModel(Base):
 
@@ -82,18 +63,16 @@ class ExtendedExcursionModel(Base):
 
 
 ExcursionModel.extended_excursion = relationship('ExtendedExcursionModel', back_populates='excursion', uselist=False)
-class OfferModel(Base):
+class FacilityModel(Base):
 
-    __tablename__ = 'offer'
+    __tablename__ = 'facility'
 
     id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    price = Column(Float, nullable=False)
     description = Column(String(100), nullable=False)
-    hotel_id = Column(Integer, ForeignKey('hotel.id'))
 
-    hotel = relationship('HotelModel', back_populates='offers')
-    agencies = relationship('AgencyModel', secondary='agency_offer', back_populates='offers')
-
+    packages = relationship('PackageModel', secondary='package_facility', back_populates='facilities')
+    agencies = relationship('AgencyModel', secondary='package_facility', back_populates='facilities')
+    extended_excursions = relationship('ExtendedExcursionModel', secondary='package_facility', back_populates='facilities')
 class HotelModel(Base):
     
     __tablename__ = 'hotel'
@@ -106,6 +85,33 @@ class HotelModel(Base):
     offers = relationship('OfferModel', back_populates='hotel')
     extended_excursions = relationship('ExtendedExcursionModel', secondary='hotel_extended_excursion_association', back_populates='hotel')
 
+class OfferModel(Base):
+
+    __tablename__ = 'offer'
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    price = Column(Float, nullable=False)
+    description = Column(String(100), nullable=False)
+    hotel_id = Column(Integer, ForeignKey('hotel.id'))
+
+    hotel = relationship('HotelModel', back_populates='offers')
+    agencies = relationship('AgencyModel', secondary='agency_offer', back_populates='offers')
+
+class PackageModel(Base):
+
+    __tablename__ = 'package'
+
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
+    duration = Column(Integer, nullable=False)
+    description = Column(String(100), nullable=False)
+    price = Column(Float, nullable=False)
+    agency_id = Column(Integer, ForeignKey('agency.id'))
+    extended_excursion_id = Column(Integer, ForeignKey('extended_excursion.id'))
+
+    agency = relationship('AgencyModel', back_populates='packages')
+    extended_excursion = relationship('ExtendedExcursionModel', back_populates='packages')
+    tourist_reservations = relationship('TouristModel', secondary='package_reservation', back_populates='packages')
+    facilities = relationship('FacilityModel', secondary='package_facility', back_populates='packages')
 
 class TouristModel(Base):
 
@@ -129,16 +135,6 @@ class TouristTypeModel(Base):
     tourists = relationship('TouristModel', secondary='tourist_type_tourist_association', back_populates='tourist_types')
 
 
-class FacilityModel(Base):
-
-    __tablename__ = 'facility'
-
-    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
-    description = Column(String(100), nullable=False)
-
-    packages = relationship('PackageModel', secondary='package_facility', back_populates='facilities')
-    agencies = relationship('AgencyModel', secondary='package_facility', back_populates='facilities')
-    extended_excursions = relationship('ExtendedExcursionModel', secondary='package_facility', back_populates='facilities')
 
 
 

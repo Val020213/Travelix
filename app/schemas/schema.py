@@ -28,8 +28,6 @@ class Agency(AgencySchema):
     package_reservations : List["PackageReservationAssociation"] = []
     facilities : List["PackageFacilityAssociation"] = []
 
-  
-
 
 class ExcursionSchema(BaseModel):
     departure_place : Optional[str]=None
@@ -60,10 +58,48 @@ class ExtendedExcursion(ExtendedExcursionSchema):
     facilities: List["PackageFacilityAssociation"] = []
     hotel: List["HotelExtendedExcursionAssociation"] = []
 
+class FacilitySchema(BaseModel):
+    name : Optional[str]=None
+class FacilityCreate(FacilitySchema):
+    pass
+class Facility(FacilitySchema):
+    id : Optional[int]=None
+    packages: List["PackageFacilityAssociation"] = []
 
+class HotelSchema(BaseModel):
+    name : Optional[str]=None
+    address : Optional[str]=None
+    category : Optional[int]=None
+class HotelCreate(HotelSchema):
+    pass
+class Hotel(HotelSchema):
+    id : Optional[int]=None
+    extended_excursions: List["HotelExtendedExcursionAssociation"] = []
 class TouristSchema(BaseModel):
     name : Optional[str]=None
     nationality : Optional[str]=None
+class OfferSchema(BaseModel):
+    price : Optional[float]=None
+    description : Optional[str]=None
+class OfferCreate(OfferSchema):
+    pass
+class Offer(OfferSchema):
+    id : Optional[int]=None
+    hotel: HotelSchema
+    agencies: List["AgencyOfferAssociation"] = []
+class PackageSchema(BaseModel):
+    duration : Optional[int]=None
+    description : Optional[str]=None
+    price : Optional[float]=None
+
+class PackageCreate(PackageSchema):
+    pass
+class Package(PackageSchema):
+    id : Optional[int]=None
+    agency: List["Agency"] = []
+    extended_excursion: List["ExtendedExcursion"] = []
+    package_reservations: List["PackageReservationAssociation"] = []
+    facilities: List["PackageFacilityAssociation"] = []
 
 class TouristCreate(TouristSchema):
     pass
@@ -85,47 +121,9 @@ class TouristType(TouristTypeSchema):
     tourists: List["Tourist"] = []
 
 
-class HotelSchema(BaseModel):
-    name : Optional[str]=None
-    address : Optional[str]=None
-    category : Optional[int]=None
-class HotelCreate(HotelSchema):
-    pass
-class Hotel(HotelSchema):
-    id : Optional[int]=None
-    extended_excursions: List["HotelExtendedExcursionAssociation"] = []
 
-class OfferSchema(BaseModel):
-    price : Optional[float]=None
-    description : Optional[str]=None
-class OfferCreate(OfferSchema):
-    pass
-class Offer(OfferSchema):
-    id : Optional[int]=None
-    hotel: HotelSchema
-    agencies: List["AgencyOfferAssociation"] = []
 
-class FacilitySchema(BaseModel):
-    name : Optional[str]=None
-class FacilityCreate(FacilitySchema):
-    pass
-class Facility(FacilitySchema):
-    id : Optional[int]=None
-    packages: List["PackageFacilityAssociation"] = []
 
-class PackageSchema(BaseModel):
-    duration : Optional[int]=None
-    description : Optional[str]=None
-    price : Optional[float]=None
-
-class PackageCreate(PackageSchema):
-    pass
-class Package(PackageSchema):
-    id : Optional[int]=None
-    agency: List["Agency"] = []
-    extended_excursion: List["ExtendedExcursion"] = []
-    package_reservations: List["PackageReservationAssociation"] = []
-    facilities: List["PackageFacilityAssociation"] = []
 
 
 
