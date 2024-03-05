@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from db.models import TouristModel, Token, TokenData
-from schemas.schema import TouristSchema, TouristCreate
+from db.models import TouristModel
+from schemas.schema import TouristSchema, TouristCreate, Token, TokenData
 
 SECRET_KEY = "d3"
 ALGORITHM = "HS256"
