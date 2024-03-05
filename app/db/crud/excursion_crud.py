@@ -4,7 +4,8 @@ from schemas.schema import ExcursionSchema
 
 
 def get_excursions(db:Session,skip:int=0,limit:int=100):
-    return toSchema(db.query(ExcursionModel).offset(skip).limit(limit).all())
+    # return toSchema(db.query(ExcursionModel).offset(skip).limit(limit).all())
+    return db.query(ExcursionModel).offset(skip).limit(limit).all()
 
 def get_excursion_by_id(db:Session,excursion_id:int):
     return toSchema(db.query(ExcursionModel).filter(ExcursionModel.id==excursion_id).first())

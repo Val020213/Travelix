@@ -26,21 +26,20 @@ class AgencyModel(Base):
 
     excursions = relationship(
         "ExcursionModel",
-        secondary="agency_excursion_association",
-        back_populates="agencies",
+        secondary="agency_excursion_association"
     )
     offers = relationship(
-        "OfferModel", secondary="agency_offer", back_populates="agencies"
+        "OfferModel", secondary="agency_offer"
     )
     extended_excursions = relationship(
-        "ExtendedExcursionModel", secondary="package", back_populates="agency"
+        "ExtendedExcursionModel", secondary="package"
     )
-    packages = relationship("PackageModel", back_populates="agency")
+    packages = relationship("PackageModel")
     package_reservations = relationship(
-        "PackageModel", secondary="package_reservation", back_populates="agency"
+        "PackageModel", secondary="package_reservation"
     )
     facilities = relationship(
-        "FacilityModel", secondary="package_facility", back_populates="agency"
+        "FacilityModel", secondary="package_facility"
     )
 
 
@@ -57,14 +56,13 @@ class ExcursionModel(Base):
     arrival_hour = Column(Time, nullable=False)
     price = Column(Float, nullable=False)
 
-    agencies = relationship(
-        "AgencyModel",
-        secondary="agency_excursion_association",
-        back_populates="excursions",
-    )
-    tourist_reservations = relationship(
-        "TouristModel", secondary="excursion_reservation", back_populates="excursions"
-    )
+    # agencies = relationship(
+    #     "AgencyModel",
+    #     secondary="agency_excursion_association"
+    # )
+    # tourists = relationship(
+    #     "TouristModel", secondary="excursion_reservation"
+    # )
 
 
 class ExtendedExcursionModel(Base):
@@ -75,31 +73,28 @@ class ExtendedExcursionModel(Base):
     excursion_id = Column(Integer, ForeignKey("excursion.id"), nullable=False)
 
     excursion = relationship(
-        "ExcursionModel", back_populates="extended_excursion", uselist=False
+        "ExcursionModel", uselist=False
     )
-    agency = relationship(
-        "AgencyModel", secondary="package", back_populates="extended_excursions"
+    agencies = relationship(
+        "AgencyModel", secondary="package_reservation"
     )
-    packages = relationship("PackageModel", back_populates="extended_excursion")
-    package_reservations = relationship(
+    tourist = relationship("TouristModel", secondary="package_reservation")
+    packages = relationship(
         "PackageModel",
-        secondary="package_reservation",
-        back_populates="extended_excursion",
+        secondary="package_reservation"
     )
     facilities = relationship(
         "FacilityModel",
-        secondary="package_facility",
-        back_populates="extended_excursion",
+        secondary="package_facility"
     )
     hotel = relationship(
         "HotelModel",
         secondary="hotel_extended_excursion_association",
-        back_populates="extended_excursions",
     )
 
 
 ExcursionModel.extended_excursion = relationship(
-    "ExtendedExcursionModel", back_populates="excursion", uselist=False
+    "ExtendedExcursionModel", uselist=False
 )
 
 
@@ -111,15 +106,14 @@ class FacilityModel(Base):
     description = Column(String(100), nullable=False)
 
     packages = relationship(
-        "PackageModel", secondary="package_facility", back_populates="facilities"
+        "PackageModel", secondary="package_facility"
     )
     agencies = relationship(
-        "AgencyModel", secondary="package_facility", back_populates="facilities"
+        "AgencyModel", secondary="package_facility"
     )
     extended_excursions = relationship(
         "ExtendedExcursionModel",
-        secondary="package_facility",
-        back_populates="facilities",
+        secondary="package_facility"
     )
 
 
@@ -132,12 +126,9 @@ class HotelModel(Base):
     address = Column(String(100), nullable=False)
     category = Column(Integer, nullable=False)
 
-    offers = relationship("OfferModel", back_populates="hotel")
-    extended_excursions = relationship(
-        "ExtendedExcursionModel",
-        secondary="hotel_extended_excursion_association",
-        back_populates="hotel",
-    )
+    offers = relationship("OfferModel")
+    extended_excursions = relationship("ExtendedExcursionModel",
+                                       secondary="hotel_extended_excursion_association")
 
 
 class OfferModel(Base):
@@ -149,9 +140,9 @@ class OfferModel(Base):
     description = Column(String(100), nullable=False)
     hotel_id = Column(Integer, ForeignKey("hotel.id"))
 
-    hotel = relationship("HotelModel", back_populates="offers")
+    hotel = relationship("HotelModel", uselist=False)
     agencies = relationship(
-        "AgencyModel", secondary="agency_offer", back_populates="offers"
+        "AgencyModel", secondary="agency_offer"
     )
 
 
@@ -166,15 +157,15 @@ class PackageModel(Base):
     agency_id = Column(Integer, ForeignKey("agency.id"))
     extended_excursion_id = Column(Integer, ForeignKey("extended_excursion.id"))
 
-    agency = relationship("AgencyModel", back_populates="packages")
-    extended_excursion = relationship(
-        "ExtendedExcursionModel", back_populates="packages"
-    )
+    # agency = relationship("AgencyModel", back_populates="agency")
+    # extended_excursions = relationship(
+    #     "ExtendedExcursionModel"
+    # )
     tourist_reservations = relationship(
-        "TouristModel", secondary="package_reservation", back_populates="packages"
+        "TouristModel", secondary="package_reservation"
     )
     facilities = relationship(
-        "FacilityModel", secondary="package_facility", back_populates="packages"
+        "FacilityModel", secondary="package_facility"
     )
 
 
@@ -190,14 +181,13 @@ class TouristModel(Base):
 
     tourist_types = relationship(
         "TouristTypeModel",
-        secondary="tourist_type_tourist_association",
-        back_populates="tourists",
+        secondary="tourist_type_tourist_association"
     )
-    excursion_reservations = relationship(
-        "ExcursionModel", secondary="excursion_reservation", back_populates="tourists"
+    excursion = relationship(
+        "ExcursionModel", secondary="excursion_reservation"
     )
-    package_reservations = relationship(
-        "PackageModel", secondary="package_reservation", back_populates="tourists"
+    package = relationship(
+        "PackageModel", secondary="package_reservation"
     )
 
 
@@ -210,8 +200,7 @@ class TouristTypeModel(Base):
 
     tourists = relationship(
         "TouristModel",
-        secondary="tourist_type_tourist_association",
-        back_populates="tourist_types",
+        secondary="tourist_type_tourist_association"
     )
 
 
@@ -225,8 +214,8 @@ class AgencyExcursionAssociationModel(Base):
     agency_id = Column(Integer, ForeignKey("agency.id"), primary_key=True)
     excursion_id = Column(Integer, ForeignKey("excursion.id"), primary_key=True)
 
-    agency = relationship("AgencyModel", back_populates="excursions")
-    excursion = relationship("ExcursionModel", back_populates="agencies")
+    # agencies = relationship("AgencyModel", back_populates="agency")
+    # excursion = relationship("ExcursionModel", back_populates="excursion")
 
 
 class AgencyOfferModel(Base):
@@ -237,8 +226,8 @@ class AgencyOfferModel(Base):
     excursion_id = Column(Integer, ForeignKey("offer.id"), primary_key=True)
     price = Column("price", Float, nullable=False)
 
-    agency = relationship("AgencyModel", back_populates="offers")
-    offer = relationship("OfferModel", back_populates="agencies")
+    # agencies = relationship("AgencyModel", back_populates="agency")
+    # offers = relationship("OfferModel", back_populates="offer")
 
 
 class ExcursionReservationModel(Base):
@@ -249,8 +238,8 @@ class ExcursionReservationModel(Base):
     excursion_id = Column(Integer, ForeignKey("excursion.id"), primary_key=True)
     date = Column(Date, nullable=False, primary_key=True)
 
-    tourist = relationship("TouristModel", back_populates="excursion_reservations")
-    excursion = relationship("ExcursionModel", back_populates="tourist_reservations")
+    # tourists = relationship("TouristModel", back_populates="tourist")
+    # excursion = relationship("ExcursionModel", back_populates="excursion")
 
 
 class PackageReservationModel(Base):
@@ -265,12 +254,12 @@ class PackageReservationModel(Base):
     )
     date = Column(Date, nullable=False, primary_key=True)
 
-    tourist = relationship("TouristModel", back_populates="package_reservations")
-    package = relationship("PackageModel", back_populates="tourist_reservations")
-    agency = relationship("AgencyModel", back_populates="package_reservations")
-    extended_excursion = relationship(
-        "ExtendedExcursionModel", back_populates="package_reservations"
-    )
+    # tourist = relationship("TouristModel", back_populates="tourist")
+    # packages = relationship("PackageModel", back_populates="package")
+    # agency = relationship("AgencyModel", back_populates="agency")
+    # extended_excursion = relationship(
+    #     "ExtendedExcursionModel", back_populates="extended_excursion"
+    # )
 
 
 class PackageFacilityModel(Base):
@@ -279,19 +268,13 @@ class PackageFacilityModel(Base):
 
     package_id = Column(Integer, ForeignKey("package.id"), primary_key=True)
     agency_id = Column(Integer, ForeignKey("agency.id"), primary_key=True)
-    extended_excursion = Column(
-        Integer, ForeignKey("extended_excursion.id"), primary_key=True
-    )
+    extended_excursion = Column(Integer, ForeignKey("extended_excursion.id"), primary_key=True)
     facility_id = Column(Integer, ForeignKey("facility.id"), primary_key=True)
 
-    package = relationship("PackageModel", back_populates="facilities")
-    facility = relationship("FacilityModel", back_populates="packages")
-    agency = relationship("AgencyModel", back_populates="facilities")
-    extended_excursion = relationship(
-        "ExtendedExcursionModel", back_populates="facilities"
-    )
-
-
+    # packages = relationship("PackageModel", back_populates="package")
+    # facilities = relationship("FacilityModel", back_populates="facility")
+    # agencies = relationship("AgencyModel", back_populates="agency")
+    # extended_excursions = relationship("ExtendedExcursionModel", back_populates="extended_excursion")
 class TouristTypeTouristAssociationModel(Base):
 
     __tablename__ = "tourist_type_tourist_association"
@@ -299,8 +282,8 @@ class TouristTypeTouristAssociationModel(Base):
     tourist_type_id = Column(Integer, ForeignKey("tourist_type.id"), primary_key=True)
     tourist_id = Column(Integer, ForeignKey("tourist.id"), primary_key=True)
 
-    tourist_type = relationship("TouristTypeModel", back_populates="tourists")
-    tourist = relationship("TouristModel", back_populates="tourist_types")
+    # tourist_type = relationship("TouristTypeModel", back_populates="tourist_type")
+    # tourist = relationship("TouristModel", back_populates="tourist")
 
 
 class HotelExtendedExcursionAssociation(Base):
@@ -314,5 +297,5 @@ class HotelExtendedExcursionAssociation(Base):
     departure_date = Column(Date, nullable=False, primary_key=True)
     arrival_date = Column(Date, nullable=False, primary_key=True)
 
-    hotel = relationship("HotelModel", back_populates="extended_excursions")
-    extended_excursion = relationship("ExtendedExcursionModel", back_populates="hotel")
+    # hotel = relationship("HotelModel", back_populates="hotel")
+    # extended_excursions = relationship("ExtendedExcursionModel", back_populates="extended_excursion")

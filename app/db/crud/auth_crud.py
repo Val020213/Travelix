@@ -1,4 +1,5 @@
 from fastapi import Depends, FastAPI, HTTPException, status
+from typing import Union, Optional
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from datetime import datetime, timedelta
@@ -37,7 +38,7 @@ def authenticate_tourist(db: Session, username: str, password: str):
     return tourist
 
 
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.utcnow() + expires_delta

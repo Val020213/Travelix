@@ -7,7 +7,7 @@ def get_agency(db:Session,skip:int=0,limit:int=100):
     return toSchema(db.query(AgencyModel).offset(skip).limit(limit).all())
 
 def get_agency_by_id(db:Session,agency_id:int):
-    return toSchema(db.query(AgencyModel).filter(AgencyModel.agency_id == agency_id).first())
+    return toSchema(db.query(AgencyModel).filter(AgencyModel.id == agency_id).first())
 
 def create_agency(db:Session,agency_schema:AgencySchema):
     agency = toModel(agency_schema)
