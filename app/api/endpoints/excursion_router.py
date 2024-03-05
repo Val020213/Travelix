@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from db.config import get_db
 
 from schemas.schema import ExcursionSchema
-import db.crud as crud
+import db.crud.excursion_crud as crud
 
 
 router = APIRouter(prefix="/excursion", tags=["excursion"])
