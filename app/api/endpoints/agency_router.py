@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from db.config import get_db
 
 from schemas.schema import AgencySchema
-import db.crud as crud
+import db.crud.agency_crud as crud
 
 
 router = APIRouter(prefix="/agency", tags=["agency"])
